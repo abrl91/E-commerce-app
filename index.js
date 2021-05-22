@@ -18,6 +18,15 @@ app.get('/', (req, res) => {
    `);
 });
 
+app.post('/', (req, res) => {
+      console.log(req.body);
+      res.send('formData');
+});
+//
+const PORT = 3000;
+
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
 // const bodyParser = (req, res, next) => {
 //    if (req.method === 'POST') {
 //       res.on('data', data => {
@@ -34,12 +43,3 @@ app.get('/', (req, res) => {
 //       next();
 //    }
 // }
-
-app.post('/', (req, res) => {
-      console.log(req.body);
-      res.send('formData');
-});
-//
-const PORT = 3000;
-
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
