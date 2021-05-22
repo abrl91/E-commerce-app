@@ -22,7 +22,7 @@ class UsersRepository {
        );
     }
 
-    async createRcord(attr) {
+    async createRecord(attr) {
         attr.id = this.randomId();
         const records = await this.getAll();
         records.push(attr);
@@ -39,8 +39,8 @@ class UsersRepository {
 
     async getRecord(id) {
         const records = await this.getAll();
-        const user = records.find(record => record.id === id);
-        if (!user) throw new Error('User Not Found');
+        const record = records.find(record => record.id === id);
+        if (!record) throw new Error('User Not Found');
         return user;
     }
 
@@ -55,6 +55,31 @@ class UsersRepository {
 
     async deleteAll() {
         await this.writeAll([]);
+    }
+
+    async updateRecord(id, attr) {
+        const records = await this.getAll();
+        const record = records.find(record => record.id === id);
+        if (!record) throw new Error(`record with id ${id} is not found`);
+        Object.assign(record, attr);
+        await this.writeAll(records);
+    }
+
+    async getOneBy(filters) {
+        const records = await this.getAll();
+
+        for (let record of records) {
+            let found = true;
+
+            for (let key in filters) {
+                if (record[key] !== filters[key]) {
+                    found = false;
+                }
+            }
+
+            if (!found) throw new Error('record not fond!');
+            return record;
+        }
     }
 }
 
